@@ -35,3 +35,4 @@ class PB:
             final_string = op.readlines()
             final_string=''.join(final_string)
             self.send("Output of "+self.get_cmd()+" :", final_string)
+
