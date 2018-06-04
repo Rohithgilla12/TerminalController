@@ -30,14 +30,8 @@ class PB:
         return os.system(self.get_cmd() + " > dude.txt")
 
     def send_user(self):
+        self.execute_cmd()
         with open("dude.txt", 'r') as op:
             final_string = op.readlines()
             final_string=''.join(final_string)
             self.send("Output of "+self.get_cmd()+" :", final_string)
-
-
-
-
-
-
-
