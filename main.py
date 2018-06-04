@@ -1,44 +1,3 @@
-import os
-from pushbullet import Pushbullet
-
-
-class PB:
-    def __init__(self, api_token):
-        self.api_token = api_token
-
-    def authorise(self):
-        return Pushbullet(self.api_token)
-
-    def send(self, title, body):
-        self.authorise().push_note(title, body)
-        return 0
-
-    def receive_latest(self):
-        tempPushes = self.authorise().get_pushes()
-        for i in tempPushes:
-            if i.get('type') == "note":
-                if i.get('body').split(" ")[0] == "/cmd":
-                    return i.get('body')
-
-    def get_cmd(self):
-        msg = self.receive_latest()
-        cmd = msg.split(" ")
-        cmd.pop(0)
-        return " ".join(cmd)
-
-    def execute_cmd(self):
-        return os.system(self.get_cmd() + " > dude.txt")
-
-    def send_user(self):
-        self.execute_cmd()
-        with open("dude.txt", 'r') as op:
-            final_string = op.readlines()
-            final_string=''.join(final_string)
-            self.send("Output of "+self.get_cmd()+" :", final_string)
-            
-            
-            
-            
 import os #python module for mimicking actions done by native operating system
 from pushbullet import Pushbullet #install this module using "sudo pip install pushbullet.py"
 
@@ -84,12 +43,10 @@ class PB:                           #this class contains all the functions requi
         else : 
             self.send("Output of "+self.get_cmd()+" :", "command not found / unsuccesful exit")        
 
-#for testing the code
+
 
 if __name__ == '__main__':
     f=PB("your api token") # get your API token from https://www.pushbullet.com/#settings
-    #print(f.authorise)
-    #print(f.receive_latest())
     f.send_output()
 
 
