@@ -36,9 +36,7 @@ class PB:
             self.send("Output of "+self.get_cmd()+" :", final_string)
 
 
-if __name__ == "__main__":
-    First = PB("o.7BKpFMfwXEiPD3UFIovsDPyU4S3Nwx7W")
-    First.send_user()
+
 
 
 
