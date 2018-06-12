@@ -97,7 +97,7 @@ class PB:                           # This class contains all the functions requ
                 else:
                     self.send("Output of "+self.get_cmd()+" :", final_string)
         elif k==9741 :
-            print("No command found \n we did not find any latest command(which is not executed yet,all the latest commands found have been executed)")
+            pass #if no new / latest command that is not yet exeuted is not found
         else :
             self.send("Output of "+self.get_cmd()+" :", "command not found / unsuccesful exit")        
 
