@@ -56,8 +56,8 @@ class PB:                           # This class contains all the functions requ
     def get_pass(self):
         msg = self.receive_latest()
         while msg.split(" ")[0] != "/pass":
-            msg=self.receive_latest()
-        password=msg.split(" ")
+            msg = self.receive_latest()
+        password = msg.split(" ")
         password.pop(0)
         return " ".join(password)    
 
@@ -66,23 +66,23 @@ class PB:                           # This class contains all the functions requ
         For executing the command received
         """
         cmd =self.get_cmd()
-        if cmd == None :
+        if cmd == None:
             return 9741
         
-        if self.get_cmd().split(" ")[0]=="bye" :
+        if self.get_cmd().split(" ")[0] == "bye" :
                 self.send("password Required","enter your password in this format /pass your password")
                 password = self.get_pass()
                 return os.system('echo %s|sudo -S poweroff > templog.txt' % (password))
 
-        if self.get_cmd().split(" ")[0]=="comeback" :
+        if self.get_cmd().split(" ")[0] == "comeback" :
                 self.send("password Required","enter your password in this format /pass your password")
                 password = self.get_pass()
                 return os.system('echo %s|sudo -S reboot > templog.txt' % (password))
 
-        if self.get_cmd().split(" ")[0]=="sudo" :
+        if self.get_cmd().split(" ")[0] == "sudo" :
                 self.send("password Required","enter your password in this format /pass your password")
                 password = self.get_pass()
-                cmd1 =  cmd.split(" ")
+                cmd1 = cmd.split(" ")
                 del(cmd1[0])
                 cmd=" ".join(cmd1)
                 return os.system('echo %s|sudo -S %s > templog.txt' % (password, cmd))
@@ -111,15 +111,15 @@ class PB:                           # This class contains all the functions requ
                     self.authorise().push_file(**filedata)
                 else:
                     self.send("Output of "+cmd+" :", final_string)
-        elif k==9741 :
-            print("-") #if no new / latest command that is not yet exeuted is not found
+        elif k == 9741:
+            print("-")  # if no new / latest command that is not yet executed is not found
         
         else :
             self.send("Output of "+self.get_cmd()+" :", "command not found / unsuccesful exit")        
 
 
 if __name__ == "__main__":
-    First = PB("o.yESJys6QUq8EgFI9UuD0X7NnPouz1Cbk")  # API token from https://www.pushbullet.com/#settings
+    First = PB("ApiToken")  # API token from https://www.pushbullet.com/#settings
     cmd = First.get_cmd()
     First.send_output(cmd)
 
