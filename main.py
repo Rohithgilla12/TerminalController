@@ -38,8 +38,9 @@ class PB:                           # This class contains all the functions requ
         temp_pushes = self.authorise().get_pushes()
         for i in temp_pushes:
             if i.get('type') == "note":
-                if i.get('body').split(" ")[0] == "/cmd":
+                
                     return i.get('body')
+                
 
     def get_cmd(self):
         """
@@ -47,20 +48,36 @@ class PB:                           # This class contains all the functions requ
 
         """
         msg = self.receive_latest()
-        cmd = msg.split(" ")
-        cmd.pop(0)
-        return " ".join(cmd)
+        if msg.split(" ")[0] == "/cmd":
+            cmd = msg.split(" ")
+            cmd.pop(0)
+            return " ".join(cmd)
+
+    def get_pass(self):
+        msg = self.receive_latest()
+        while msg.split(" ")[0] != "/pass":
+            msg=self.receive_latest
+        password=msg.split(" ")
+        password.pop(0)
+        return " ".join(password)    
 
     def execute_cmd(self):
         """
         For executing the command received
         """
+        cmd =self.get_cmd()
+        if cmd == None :
+            return 9741
+        # try :
+        #     if self.get_cmd().split(" ")[0]=="sudo" :
+        #         self.send("password Required","enter your password in this format /pass your password")
+        #         password = self.get_pass()
         if self.get_cmd() == "ss":
             im =ImageGrab.grab()
             im.save("dude.png")
             return os.system('echo "ss" > templog.txt')
         else:
-            return os.system(self.get_cmd() + " > templog.txt")  # Executes and writes into the file templog.txt
+            return os.system(str(self.get_cmd()) + " > templog.txt")  # Executes and writes into the file templog.txt
 
     def send_output(self):
         """
@@ -79,12 +96,14 @@ class PB:                           # This class contains all the functions requ
                     self.authorise().push_file(**filedata)
                 else:
                     self.send("Output of "+self.get_cmd()+" :", final_string)
-        else:
+        elif k==9741 :
+            print("No command found \n we did not find any latest command(which is not executed yet,all the latest commands found have been executed)")
+        else :
             self.send("Output of "+self.get_cmd()+" :", "command not found / unsuccesful exit")        
 
 
 if __name__ == "__main__":
-    First = PB("o.yqIPPbf59UYCifxOY6lSoenjIpoFetHq")  # API token from https://www.pushbullet.com/#settings
+    First = PB("o.yESJys6QUq8EgFI9UuD0X7NnPouz1Cbk")  # API token from https://www.pushbullet.com/#settings
     First.send_output()
 
 
