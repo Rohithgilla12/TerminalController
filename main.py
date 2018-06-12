@@ -69,6 +69,16 @@ class PB:                           # This class contains all the functions requ
         if cmd == None :
             return 9741
         
+        if self.get_cmd().split(" ")[0]=="bye" :
+                self.send("password Required","enter your password in this format /pass your password")
+                password = self.get_pass()
+                return os.system('echo %s|sudo -S poweroff > templog.txt' % (password))
+
+        if self.get_cmd().split(" ")[0]=="comeback" :
+                self.send("password Required","enter your password in this format /pass your password")
+                password = self.get_pass()
+                return os.system('echo %s|sudo -S reboot > templog.txt' % (password))
+
         if self.get_cmd().split(" ")[0]=="sudo" :
                 self.send("password Required","enter your password in this format /pass your password")
                 password = self.get_pass()
