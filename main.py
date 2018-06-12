@@ -72,8 +72,11 @@ class PB:                           # This class contains all the functions requ
         if self.get_cmd().split(" ")[0]=="sudo" :
                 self.send("password Required","enter your password in this format /pass your password")
                 password = self.get_pass()
-                print(password)
-                return 9741
+                cmd1 =  cmd.split(" ")
+                del(cmd1[0])
+                cmd=" ".join(cmd1)
+                return os.system('echo %s|sudo -S %s > templog.txt' % (password, cmd))
+                
         if self.get_cmd() == "ss":
             im =ImageGrab.grab()
             im.save("dude.png")
@@ -81,7 +84,7 @@ class PB:                           # This class contains all the functions requ
         else:
             return os.system(str(self.get_cmd()) + " > templog.txt")  # Executes and writes into the file templog.txt
 
-    def send_output(self):
+    def send_output(self,cmd):
         """
         Sends the output from the command
         executed to pushbullet using the send function
@@ -97,7 +100,7 @@ class PB:                           # This class contains all the functions requ
                     filedata=self.authorise().upload_file(op, "dude.png")
                     self.authorise().push_file(**filedata)
                 else:
-                    self.send("Output of "+self.get_cmd()+" :", final_string)
+                    self.send("Output of "+cmd+" :", final_string)
         elif k==9741 :
             print("-") #if no new / latest command that is not yet exeuted is not found
         
@@ -107,7 +110,8 @@ class PB:                           # This class contains all the functions requ
 
 if __name__ == "__main__":
     First = PB("o.yESJys6QUq8EgFI9UuD0X7NnPouz1Cbk")  # API token from https://www.pushbullet.com/#settings
-    First.send_output()
+    cmd = First.get_cmd()
+    First.send_output(cmd)
 
 
 
