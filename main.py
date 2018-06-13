@@ -67,7 +67,7 @@ class PB:  # This class contains all the functions required
         For executing the command received
         """
         cmd = self.get_cmd()
-        if cmd == None:
+        if cmd is None:
             return 9741
 
         if self.get_cmd().split(" ")[0] == "bye":
@@ -134,6 +134,6 @@ class PB:  # This class contains all the functions required
 
 
 if __name__ == "__main__":
-    First = PB("API Token")  # API token from https://www.pushbullet.com/#settings
+    First = PB("o.yqIPPbf59UYCifxOY6lSoenjIpoFetHq")  # API token from https://www.pushbullet.com/#settings
     cmd = First.get_cmd()
     First.send_output(cmd)
